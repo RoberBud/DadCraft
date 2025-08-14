@@ -16,6 +16,15 @@
       margin: 0;
       padding: 0;
     }
+    #maze { display: grid; grid-template-columns: repeat(15, 20px); margin: 20px auto; }
+    .cell { width: 20px; height: 20px; border: 1px solid #ccc; }
+    .wall { background: gray; }
+    .path { background: white; }
+    .zombie { background: green; }
+    .center { background: blue; }
+    .oil { background: orange; }
+    .visited { background: lightgreen; }
+    .success { background: red; }
 
     .gradient-sub {
       font-family: 'Orbitron', sans-serif;
@@ -66,6 +75,8 @@
 <body background="https://i.postimg.cc/N0sLwv0c/A-digital-sci-fi-themed-artwork-with-a-deep-midnight-colored-background-Toward-the-center-right-of.jpg">
   <h1 class="gradient-stroke" data-text="DadCraft" style="font-size: 80px; margin-bottom: 20px;">DadCraft</h1>
   <h2 class="gradient-sub" data-text="PROTECT YOUR RICH OIL DADDY" style="font-size: 40px; margin-bottom: 0;">PROTECT YOUR RICH OIL DADDY</h2>
- 
+  <div id="maze"></div>
+  <button onclick="resetAndSimulate()">再次投胎</button>
+
 </body>
 </html>
