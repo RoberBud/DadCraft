@@ -77,6 +77,128 @@
   <h2 class="gradient-sub" data-text="PROTECT YOUR RICH OIL DADDY" style="font-size: 40px; margin-bottom: 0;">PROTECT YOUR RICH OIL DADDY</h2>
   <div id="maze"></div>
   <button onclick="resetAndSimulate()">再次投胎</button>
+    <script>
+    const size = 15;
+    const maze = [];
+    const mazeDiv = document.getElementById('maze');
+    const center = [7, 7];
+
+    function createMaze() {
+      mazeDiv.innerHTML = '';
+      for (let y = 0; y < size; y++) {
+        maze[y] = [];
+        for (let x = 0; x < size; x++) {
+          const cell = document.createElement('div');
+          cell.className = 'cell path';
+          mazeDiv.appendChild(cell);
+          maze[y][x] = { el: cell, type: 'path' };
+        }
+      }
+
+      // Add walls
+      for (let i = 0; i < size; i++) {
+        maze[0][i].type = 'wall';
+        maze[0][i].el.className = 'cell wall';
+        maze[size-1][i].type = 'wall';
+        maze[size-1][i].el.className = 'cell wall';
+        maze[i][0].type = 'wall';
+        maze[i][0].el.className = 'cell wall';
+        maze[i][size-1].type = 'wall';
+        maze[i][size-1].el.className = 'cell wall';
+      }
+
+      // Add center
+      maze[center[1]][center[0]].type = 'center';
+      maze[center[1]][center[0]].el.className = 'cell center';
+
+      // Add oil wells
+      for (let i = 0; i < 5; i++) {
+        const ox = Math.floor(Math.random() * (size - 4)) + 2;
+        const oy = Math.floor(Math.random() * (size - 4)) + 2;
+        if (maze[oy][ox].type === 'path') {
+          maze[oy][ox].type = 'oil';
+          maze[oy][ox].el.className = 'cell oil';
+        }
+      }
+
+      // Add internal walls
+      for (let i = 2; i < size - 2; i += 2) {
+        for (let j = 2; j < size - 2; j++) {
+          if (Math.random() < 0.3 && maze[i][j].type === 'path') {
+            maze[i][j].type = 'wall';
+            maze[i][j].el.className = 'cell wall';
+          }
+        }
+      }
+    }
+
+    function bfs(start) {
+      const queue = [start];
+      const visited = Array.from({ length: size }, () => Array(size).fill(false));
+      const prev = Array.from({ length: size }, () => Array(size).fill(null));
+      visited[start[1]][start[0]] = true;
+
+      while (queue.length > 0) {
+        const [x, y] = queue.shift();
+        if (x === center[0] && y === center[1]) break;
+        for (const [dx, dy] of [[0,1],[1,0],[0,-1],[-1,0]]) {
+          const nx = x + dx, ny = y + dy;
+          if (nx >= 0 && ny >= 0 && nx < size && ny < size &&
+              !visited[ny][nx] &&
+              (maze[ny][nx].type === 'path' || maze[ny][nx].type === 'center')) {
+            visited[ny][nx] = true;
+            prev[ny][nx] = [x, y];
+            queue.push([nx, ny]);
+          }
+        }
+      }
+
+      // Reconstruct path
+      let path = [];
+      let cur = center;
+      while (cur && !(cur[0] === start[0] && cur[1] === start[1])) {
+        path.push(cur);
+        cur = prev[cur[1]][cur[0]];
+      }
+      if (cur) path.push(start);
+      return path.reverse();
+    }
+
+    function animatePath(path) {
+      let i = 0;
+      function step() {
+        if (i < path.length) {
+          const [x, y] = path[i];
+          if (maze[y][x].type === 'center') {
+            maze[y][x].el.className = 'cell success';
+          } else {
+            maze[y][x].el.className = 'cell visited';
+          }
+          i++;
+          setTimeout(step, 100);
+        }
+      }
+      step();
+    }
+
+    function resetAndSimulate() {
+      createMaze();
+      const edges = [];
+      for (let i = 1; i < size - 1; i++) {
+        edges.push([i, 1]);
+        edges.push([i, size - 2]);
+        edges.push([1, i]);
+        edges.push([size - 2, i]);
+      }
+      const start = edges[Math.floor(Math.random() * edges.length)];
+      maze[start[1]][start[0]].el.className = 'cell zombie';
+      const path = bfs(start);
+      if (path.length > 0) animatePath(path);
+    }
+
+    // Initialize
+    createMaze();
+  </script>
 
 </body>
 </html>
