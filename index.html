@@ -86,23 +86,28 @@
   </div>
 
   <button onclick="resetAndSimulate()">再次投胎</button>
-    <script>
-    const size = 30;
+    <script>     
+    const rows = 30;
+    const cols = 15;
     const maze = [];
     const mazeDiv = document.getElementById('maze');
-    const center = [7, 7];
+    const center = [Math.floor(rows / 2), Math.floor(cols / 2)];
 
+    
     function createMaze() {
       mazeDiv.innerHTML = '';
-      for (let y = 0; y < size; y++) {
+      mazeDiv.style.gridTemplateColumns = `repeat(${cols}, 20px)`;
+      for (let y = 0; y < rows; y++) {
         maze[y] = [];
-        for (let x = 0; x < size; x++) {
+        for (let x = 0; x < cols; x++) {
           const cell = document.createElement('div');
           cell.className = 'cell path';
           mazeDiv.appendChild(cell);
           maze[y][x] = { el: cell, type: 'path' };
-        }
-      }
+    }
+  }
+}
+
 
       // Add walls
       for (let i = 0; i < size; i++) {
