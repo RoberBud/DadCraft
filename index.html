@@ -47,7 +47,7 @@
                background-size: cover;
                background-position: center;
               }
-    .visited_both { background-image: url('https://i.postimg.cc/mZnBBX4K/2025-08-15-102032.jpg');
+    .visited_overlap { background-image: url('https://i.postimg.cc/mZnBBX4K/2025-08-15-102032.jpg');
                background-size: cover;
                background-position: center;
               }
@@ -204,9 +204,21 @@
       if (i < path.length) {
         const [x, y] = path[i];
         const cell = maze[y][x];
-        if (cell.el.classList.contains('visited') && label === 'YOU') {
-                  cell.el.className = 'cell visited-both';
-                  }
+        
+        const currentClass = maze[y][x].el.className;
+
+        if (
+            (currentClass.includes('visited-you') && label === 'Z') ||
+            (currentClass.includes('zombie') && label === 'YOU')
+          ) {
+              maze[y][x].el.className = 'cell overlap';
+            } else {
+                    maze[y][x].el.className =
+                    label === 'YOU' ? 'cell visited-you' :
+                    label === 'Z' ? 'cell zombie' :
+                    'cell visited';
+            }
+
         if (cell.type === 'center') {
           cell.el.className = 'cell success';
           animationStopped = true;
