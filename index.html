@@ -207,7 +207,7 @@
           if (label === 'YOU') {
             alert('恭喜你！來逛逛最新的保石捷！\nhttps://www.porsche.com/taiwan/zh-tw/');
         } else {
-            alert('其實你並沒有一個富爸爸');
+            alert('其實你並沒有一個富爸爸\n或許有人出生就在羅馬');
           }
         return;
       } else {
@@ -243,7 +243,6 @@
 
       selected.forEach((start, index) => {
         const label = index === 0 ? 'YOU' : 'Z'; 
-        maze[start[1]][start[0]].el.textContent = label;
         maze[start[1]][start[0]].el.className = label === 'YOU' ? 'cell visited-you' : 'cell zombie'
         const path = bfs(start);
         if (path.length > 0) {
