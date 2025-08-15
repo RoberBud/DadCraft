@@ -241,9 +241,8 @@
       }
 
       selected.forEach((start, index) => {
-        maze[start[1]][start[0]].el.className = label === 'YOU' ? 'cell visited-you' : 'cell zombie'
-        maze[start[1]][start[0]].el.className = 'cell zombie';
         maze[start[1]][start[0]].el.textContent = label;
+        maze[start[1]][start[0]].el.className = label === 'YOU' ? 'cell visited-you' : 'cell zombie'
         const path = bfs(start);
         if (path.length > 0) {
           setTimeout(() => animatePath(path, label), index * 200);
