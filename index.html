@@ -100,11 +100,12 @@
   </div>
 
   <button onclick="resetAndSimulate()">再次投胎</button>
-    <script>     
+  <script>
     const size = 15;
     const maze = [];
     const mazeDiv = document.getElementById('maze');
     const center = [7, 7];
+    let animationStopped = false;
 
     function createMaze() {
       mazeDiv.innerHTML = '';
@@ -118,9 +119,7 @@
         }
       }
 
-
-
-      // Add walls
+      // Add borders
       for (let i = 0; i < size; i++) {
         maze[0][i].type = 'wall';
         maze[0][i].el.className = 'cell wall';
@@ -129,35 +128,6 @@
         maze[i][size-1].type = 'wall';
         maze[i][size-1].el.className = 'cell wall';
       }
-      maze[5][6].type = 'wall';
-      maze[5][6].el.className = 'cell wall';
-      maze[5][7].type = 'wall';
-      maze[5][7].el.className = 'cell wall';
-      maze[5][8].type = 'wall';
-      maze[5][8].el.className = 'cell wall';
-      maze[5][9].type = 'wall';
-      maze[5][9].el.className = 'cell wall';
-      maze[6][5].type = 'wall';
-      maze[6][5].el.className = 'cell wall';
-      maze[7][5].type = 'wall';
-      maze[7][5].el.className = 'cell wall';
-      
-      
-
-      maze[11][7].type = 'wall';
-      maze[11][7].el.className = 'cell wall';
-      maze[12][7].type = 'wall';
-      maze[12][7].el.className = 'cell wall';
-      maze[13][7].type = 'wall';
-      maze[13][7].el.className = 'cell wall';
-      maze[14][7].type = 'wall';
-      maze[14][7].el.className = 'cell wall';
-
-      maze[3][4].type = 'wall';
-      maze[3][4].el.className = 'cell wall';
-      maze[3][3].type = 'wall';
-      maze[3][3].el.className = 'cell wall';
-     
 
       // Add center
       maze[center[1]][center[0]].type = 'center';
@@ -216,13 +186,21 @@
       return path.reverse();
     }
 
-    function animatePath(path) {
+    function animatePath(path, label) {
       let i = 0;
       function step() {
+        if (animationStopped) return;
         if (i < path.length) {
           const [x, y] = path[i];
           if (maze[y][x].type === 'center') {
             maze[y][x].el.className = 'cell success';
+            animationStopped = true;
+            if (label === 'YOU') {
+              alert('恭喜你到達終點');
+            } else {
+              alert('其實你並沒有一個富爸爸');
+            }
+            return;
           } else {
             maze[y][x].el.className = 'cell visited';
           }
@@ -234,6 +212,7 @@
     }
 
     function resetAndSimulate() {
+      animationStopped = false;
       createMaze();
       const edges = [];
       for (let i = 1; i < size - 1; i++) {
@@ -242,15 +221,28 @@
         edges.push([1, i]);
         edges.push([size - 2, i]);
       }
-      const start = edges[Math.floor(Math.random() * edges.length)];
-      maze[start[1]][start[0]].el.className = 'cell zombie';
-      const path = bfs(start);
-      if (path.length > 0) animatePath(path);
+      const selected = [];
+      while (selected.length < 5) {
+        const candidate = edges[Math.floor(Math.random() * edges.length)];
+        if (!selected.some(([x, y]) => x === candidate[0] && y === candidate[1])) {
+          selected.push(candidate);
+        }
+      }
+
+      selected.forEach((start, index) => {
+        const label = index === 0 ? 'YOU' : 'Z';
+        maze[start[1]][start[0]].el.className = 'cell zombie';
+        maze[start[1]][start[0]].el.textContent = label;
+        const path = bfs(start);
+        if (path.length > 0) {
+          setTimeout(() => animatePath(path, label), index * 200);
+        }
+      });
     }
 
-    // Initialize
     createMaze();
   </script>
+
 
 </body>
 </html>
