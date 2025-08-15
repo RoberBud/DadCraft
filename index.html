@@ -40,7 +40,7 @@
                background-size: cover;
                background-position: center;
               }
-    .visited-zombie { background-image: url('https://i.postimg.cc/tRsGS36k/638602776036030000.jpg');
+    .visited { background-image: url('https://i.postimg.cc/tRsGS36k/638602776036030000.jpg');
                background-size: cover;
                background-position: center;
               }
@@ -200,7 +200,7 @@
         if (label === 'YOU') {
           maze[y][x].el.className = 'cell visited-you';} 
         else {
-          maze[y][x].el.className = 'cell visited-zombie';
+          maze[y][x].el.className = 'cell visited';
           }
 
           if (maze[y][x].type === 'center') {
