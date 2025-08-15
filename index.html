@@ -241,6 +241,7 @@
       }
 
       selected.forEach((start, index) => {
+        const label = index === 0 ? 'YOU' : 'Z'; 
         maze[start[1]][start[0]].el.textContent = label;
         maze[start[1]][start[0]].el.className = label === 'YOU' ? 'cell visited-you' : 'cell zombie'
         const path = bfs(start);
