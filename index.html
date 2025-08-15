@@ -193,29 +193,34 @@
       return path.reverse();
     }
 
-    function animatePath(path, label) {
-      let i = 0;
-      function step() {
-        maze[y][x].el.className = label === 'YOU' ? 'cell visited-you' : 'cell visited';
-        if (animationStopped) return;
-        if (i < path.length) {
-          const [x, y] = path[i];
-          maze[y][x].el.className = label === 'YOU' ? 'cell visited-you' : 'cell visited';
-          if (maze[y][x].type === 'center') {
-            maze[y][x].el.className = 'cell success';
-            animationStopped = true;
-            if (label === 'YOU') {
-              alert('恭喜你！來逛逛最新的保石捷！\nhttps://www.porsche.com/taiwan/zh-tw/');
-            } else {
-              alert('其實你並沒有一個富爸爸');
-            }
-            return;
-          } else {
-            maze[y][x].el.className = label === 'YOU' ? 'cell visited-you' : 'cell visited';
+  function animatePath(path, label) {
+    let i = 0;
+    function step() {
+      if (animationStopped) return;
+      if (i < path.length) {
+        const [x, y] = path[i];
+        const cell = maze[y][x];
+      
+        if (cell.type === 'center') {
+          cell.el.className = 'cell success';
+          animationStopped = true;
+          if (label === 'YOU') {
+            alert('恭喜你！來逛逛最新的保石捷！\nhttps://www.porsche.com/taiwan/zh-tw/');
+        } else {
+            alert('其實你並沒有一個富爸爸');
           }
-          i++;
-          setTimeout(step, 100);
-        }
+        return;
+      } else {
+        cell.el.className = label === 'YOU' ? 'cell visited-you' : 'cell visited';
+      }
+
+      i++;
+      setTimeout(step, 100);
+    }
+  }
+  step();
+}
+
       }
       step();
     }
