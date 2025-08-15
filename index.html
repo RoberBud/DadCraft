@@ -36,7 +36,11 @@
             background-size: cover;
             background-position: center;
           }
-    .visited { background-image: url('https://i.postimg.cc/RZxsT4S4/A-simple-icon-style-illustration-of-a-desert-boot-suitable-for-walking-in-the-desert-placed-on-a-pa.jpg');
+    .visited-you { background-image: url('https://i.postimg.cc/RZxsT4S4/A-simple-icon-style-illustration-of-a-desert-boot-suitable-for-walking-in-the-desert-placed-on-a-pa.jpg');
+               background-size: cover;
+               background-position: center;
+              }
+    .visited-zombie { background-image: url('https://i.postimg.cc/tRsGS36k/638602776036030000.jpg');
                background-size: cover;
                background-position: center;
               }
@@ -192,6 +196,13 @@
         if (animationStopped) return;
         if (i < path.length) {
           const [x, y] = path[i];
+          
+        if (label === 'YOU') {
+          maze[y][x].el.className = 'cell visited-you';} 
+        else {
+          maze[y][x].el.className = 'cell visited-zombie';
+          }
+
           if (maze[y][x].type === 'center') {
             maze[y][x].el.className = 'cell success';
             animationStopped = true;
