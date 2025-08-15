@@ -196,6 +196,7 @@
     function animatePath(path, label) {
       let i = 0;
       function step() {
+        maze[y][x].el.className = label === 'YOU' ? 'cell visited-you' : 'cell visited';
         if (animationStopped) return;
         if (i < path.length) {
           const [x, y] = path[i];
