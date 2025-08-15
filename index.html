@@ -204,7 +204,9 @@
       if (i < path.length) {
         const [x, y] = path[i];
         const cell = maze[y][x];
-      
+        if (cell.el.classList.contains('visited') && label === 'YOU') {
+                  cell.el.className = 'cell visited-both';
+                  }
         if (cell.type === 'center') {
           cell.el.className = 'cell success';
           animationStopped = true;
@@ -215,10 +217,6 @@
           }
         return;
       } else {
-        　　　if (cell.el.classList.contains('visited') && label === 'YOU') {
-                  cell.el.className = 'cell visited-both';
-                  }
-      　else {
         cell.el.className = label === 'YOU' ? 'cell visited-you' : 'cell visited';
       }
 
