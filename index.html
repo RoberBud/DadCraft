@@ -47,6 +47,10 @@
                background-size: cover;
                background-position: center;
               }
+    .visited_both { background-image: url('https://i.postimg.cc/mZnBBX4K/2025-08-15-102032.jpg');
+               background-size: cover;
+               background-position: center;
+              }
     .success { background-image: url('https://i.postimg.cc/ZnFc7yKm/A-simple-icon-style-illustration-of-a-crown-centered-on-a-transparent-or-light-background-The-crow.jpg');
                background-size: cover;
                background-position: center;
@@ -207,10 +211,14 @@
           if (label === 'YOU') {
             alert('恭喜你！來逛逛最新的保石捷！\nhttps://www.porsche.com/taiwan/zh-tw/');
         } else {
-            alert('其實你並沒有一個富爸爸\n或許有人出生就在羅馬');
+            alert('其實你並沒有一個富爸爸\n或許有人一出生，就在羅馬……');
           }
         return;
       } else {
+        　　　if (cell.el.classList.contains('visited') && label === 'YOU') {
+                  cell.el.className = 'cell visited-both';
+                  }
+      　else {
         cell.el.className = label === 'YOU' ? 'cell visited-you' : 'cell visited';
       }
 
