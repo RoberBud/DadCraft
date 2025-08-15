@@ -199,11 +199,7 @@
         if (animationStopped) return;
         if (i < path.length) {
           const [x, y] = path[i];
-
-        maze[y][x].el.className = label === 'YOU' ? 'cell visited-you' : 'cell visited';
-
-        
-
+          maze[y][x].el.className = label === 'YOU' ? 'cell visited-you' : 'cell visited';
           if (maze[y][x].type === 'center') {
             maze[y][x].el.className = 'cell success';
             animationStopped = true;
@@ -214,7 +210,7 @@
             }
             return;
           } else {
-            maze[y][x].el.className = 'cell visited';
+            maze[y][x].el.className = label === 'YOU' ? 'cell visited-you' : 'cell visited';
           }
           i++;
           setTimeout(step, 100);
