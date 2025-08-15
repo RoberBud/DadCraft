@@ -85,16 +85,14 @@
   </div>
 
   <button onclick="resetAndSimulate()">再次投胎</button>
-     <script>
+    <script>     
     const size = 15;
     const maze = [];
     const mazeDiv = document.getElementById('maze');
     const center = [7, 7];
-    let animationStopped = false;
 
     function createMaze() {
       mazeDiv.innerHTML = '';
-      mazeDiv.style.gridTemplateColumns = `repeat(${size}, 20px)`;
       for (let y = 0; y < size; y++) {
         maze[y] = [];
         for (let x = 0; x < size; x++) {
@@ -104,6 +102,10 @@
           maze[y][x] = { el: cell, type: 'path' };
         }
       }
+
+
+
+      // Add walls
       for (let i = 0; i < size; i++) {
         maze[0][i].type = 'wall';
         maze[0][i].el.className = 'cell wall';
@@ -112,22 +114,41 @@
         maze[i][size-1].type = 'wall';
         maze[i][size-1].el.className = 'cell wall';
       }
-      maze[5][6].type = 'wall'; maze[5][6].el.className = 'cell wall';
-      maze[5][7].type = 'wall'; maze[5][7].el.className = 'cell wall';
-      maze[5][8].type = 'wall'; maze[5][8].el.className = 'cell wall';
-      maze[5][9].type = 'wall'; maze[5][9].el.className = 'cell wall';
-      maze[6][5].type = 'wall'; maze[6][5].el.className = 'cell wall';
-      maze[7][5].type = 'wall'; maze[7][5].el.className = 'cell wall';
-      maze[11][7].type = 'wall'; maze[11][7].el.className = 'cell wall';
-      maze[12][7].type = 'wall'; maze[12][7].el.className = 'cell wall';
-      maze[13][7].type = 'wall'; maze[13][7].el.className = 'cell wall';
-      maze[14][7].type = 'wall'; maze[14][7].el.className = 'cell wall';
-      maze[3][4].type = 'wall'; maze[3][4].el.className = 'cell wall';
-      maze[3][3].type = 'wall'; maze[3][3].el.className = 'cell wall';
+      maze[5][6].type = 'wall';
+      maze[5][6].el.className = 'cell wall';
+      maze[5][7].type = 'wall';
+      maze[5][7].el.className = 'cell wall';
+      maze[5][8].type = 'wall';
+      maze[5][8].el.className = 'cell wall';
+      maze[5][9].type = 'wall';
+      maze[5][9].el.className = 'cell wall';
+      maze[6][5].type = 'wall';
+      maze[6][5].el.className = 'cell wall';
+      maze[7][5].type = 'wall';
+      maze[7][5].el.className = 'cell wall';
+      
+      
 
+      maze[11][7].type = 'wall';
+      maze[11][7].el.className = 'cell wall';
+      maze[12][7].type = 'wall';
+      maze[12][7].el.className = 'cell wall';
+      maze[13][7].type = 'wall';
+      maze[13][7].el.className = 'cell wall';
+      maze[14][7].type = 'wall';
+      maze[14][7].el.className = 'cell wall';
+
+      maze[3][4].type = 'wall';
+      maze[3][4].el.className = 'cell wall';
+      maze[3][3].type = 'wall';
+      maze[3][3].el.className = 'cell wall';
+     
+
+      // Add center
       maze[center[1]][center[0]].type = 'center';
       maze[center[1]][center[0]].el.className = 'cell center';
 
+      // Add oil wells
       for (let i = 0; i < 5; i++) {
         const ox = Math.floor(Math.random() * (size - 4)) + 2;
         const oy = Math.floor(Math.random() * (size - 4)) + 2;
@@ -137,6 +158,7 @@
         }
       }
 
+      // Add internal walls
       for (let i = 2; i < size - 2; i += 2) {
         for (let j = 2; j < size - 2; j++) {
           if (Math.random() < 0.3 && maze[i][j].type === 'path') {
@@ -168,6 +190,7 @@
         }
       }
 
+      // Reconstruct path
       let path = [];
       let cur = center;
       while (cur && !(cur[0] === start[0] && cur[1] === start[1])) {
@@ -178,18 +201,13 @@
       return path.reverse();
     }
 
-    function animatePath(path, label) {
+    function animatePath(path) {
       let i = 0;
       function step() {
-        if (animationStopped) return;
         if (i < path.length) {
           const [x, y] = path[i];
           if (maze[y][x].type === 'center') {
             maze[y][x].el.className = 'cell success';
-            animationStopped = true;
-            if
-            alert(`${label} reached the center first!`);
-            return;
           } else {
             maze[y][x].el.className = 'cell visited';
           }
@@ -201,7 +219,6 @@
     }
 
     function resetAndSimulate() {
-      animationStopped = false;
       createMaze();
       const edges = [];
       for (let i = 1; i < size - 1; i++) {
@@ -210,19 +227,15 @@
         edges.push([1, i]);
         edges.push([size - 2, i]);
       }
-      const shuffled = edges.sort(() => 0.5 - Math.random());
-      const starts = shuffled.slice(0, 5);
-      starts.forEach((start, index) => {
-        maze[start[1]][start[0]].el.className = 'cell zombie';
-        if (index === 0) maze[start[1]][start[0]].el.innerText = 'YOU';
-        const path = bfs(start);
-        if (path.length > 0) animatePath(path, index === 0 ? 'YOU' : `Zombie ${index+1}`);
-      });
+      const start = edges[Math.floor(Math.random() * edges.length)];
+      maze[start[1]][start[0]].el.className = 'cell zombie';
+      const path = bfs(start);
+      if (path.length > 0) animatePath(path);
     }
 
+    // Initialize
     createMaze();
   </script>
-
 
 </body>
 </html>
