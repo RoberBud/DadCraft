@@ -108,7 +108,32 @@
       text-shadow: 2px 2px 6px #001f4d; 
       } 
     
-
+      .missile {
+       position: absolute;
+       bottom: 0;
+       left: 50%;
+       width: 20px;
+       height: 60px;
+       background: linear-gradient(to top, #ccc, #f00);
+       border-radius: 5px;
+       transform: translateX(-50%);
+       animation: flyUp 2s linear forwards;
+       }
+      
+       @keyframes flyUp {
+        0% {
+            bottom: 0;
+            opacity: 1;
+        }
+            80% {
+            opacity: 1;
+        }
+        100% {
+            bottom: 100%;
+            opacity: 0;
+            }
+        }
+        
   </style>
 </head>
 <body background="https://i.postimg.cc/44YqXXBQ/2025-08-15-110625.jpg">
@@ -279,8 +304,25 @@
         }
       });
     }
+   
+    function launchMissile() {
+      const zone = document.getElementById('maze');
+      const missile = document.createElement('div');
+      missile.className = 'missile';
+      zone.appendChild(missile);
+
+      // 移除動畫結束後的導彈元素
+      missile.addEventListener('animationend', () => {
+      missile.remove();
+      });
+    }
+
+    // 每隔 3 秒發射一枚導彈
+    setInterval(launchMissile, 3000);
+
 
     createMaze();
+  
   </script>
 
 
