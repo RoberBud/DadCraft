@@ -110,27 +110,7 @@
       -webkit-text-stroke: 2px #001f4d; 
       text-shadow: 2px 2px 6px #001f4d; 
       } 
-    .meteor {
-        position: absolute;
-        width: 2px;
-        height: 100px;
-        background: linear-gradient(45deg, white, transparent);
-        opacity: 0.7;
-        transform: rotate(45deg);
-        animation: fall 2s linear infinite;
-        }
 
-     @keyframes fall {
-        0% {
-            top: -150px;
-            left: 0;
-            opacity: 1;
-        }
-        100% {
-            top: 100vh;
-            left: 100vw;
-            opacity: 0;
-        }  
   </style>
 </head>
 <body background="https://i.postimg.cc/44YqXXBQ/2025-08-15-110625.jpg">
@@ -302,21 +282,6 @@
       });
     }
 
-  document.addEventListener('DOMContentLoaded', () => {
-      const sky = document.querySelector('.sky');
-      const meteorCount = 20;
-
-      for (let i = 0; i < meteorCount; i++) {
-        const meteor = document.createElement('div');
-        meteor.classList.add('meteor');
-
-        // 隨機尺寸與動畫參數
-        meteor.style.width = `${Math.random() * 3 + 1}px`;
-        meteor.style.height = `${Math.random() * 200 + 50}px`;
-        meteor.style.animationDelay = `${Math.random() * 5}s`;
-        meteor.style.animationDuration = `${Math.random() * 3 + 1.5}s`;
-
-        sky.appendChild(meteor);
 
     createMaze();
   
