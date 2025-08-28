@@ -110,39 +110,35 @@
       -webkit-text-stroke: 2px #001f4d; 
       text-shadow: 2px 2px 6px #001f4d; 
       } 
-    .missile {
+   .missile {
         position: absolute;
-        bottom: -100px;
-        left: 50%;
-        width: 20px;
-        height: 60px;
-        background: linear-gradient(to top, #ccc, #666);
-        border-radius: 10px;
-        transform: translateX(-50%);
-        animation: flyUp 3s linear forwards;
+        width: 40px;
+        height: 10px;
+        background: linear-gradient(to right, #f00, #fff);
+        border-radius: 5px;
+        top: 50%;
+        left: -50px;
+        transform: rotate(10deg);
+        animation: fly 3s linear forwards;
         }
 
-    .flame {
+    @keyframes fly {
+        0% { left: -50px; top: 50%; }
+        100% { left: 100vw; top: 30%; }
+        }
+
+    .trail {
         position: absolute;
-        bottom: -20px;
-        left: 50%;
-        width: 10px;
-        height: 30px;
-        background: radial-gradient(circle, orange 0%, red 70%, transparent 100%);
+        width: 5px;
+        height: 5px;
+        background: orange;
         border-radius: 50%;
-        transform: translateX(-50%);
-        animation: flicker 0.2s infinite alternate;
+        animation: fade 1s linear forwards;
         }
 
-     @keyframes flyUp {
-        to {
-            bottom: 100%;
-        }
-        }
-
-     @keyframes flicker {
-        0% { opacity: 0.8; transform: scale(1); }
-        100% { opacity: 1; transform: scale(1.2); }
+    @keyframes fade {
+        0% { opacity: 1; transform: scale(1); }
+        100% { opacity: 0; transform: scale(2); }
         }
   </style>
 </head>
@@ -314,22 +310,18 @@
         }
       });
     }
-   setInterval(() => {
-      const missile = document.createElement('div');
-      missile.className = 'maze';
-      const flame = document.createElement('div');
-      flame.className = 'maze';
+    const missile = document.getElementById('missile');
 
-      document.body.appendChild(missile);
-      document.body.appendChild(flame);
+    // 模擬尾焰
+    setInterval(() => {
+      const trail = document.createElement('div');
+      trail.className = 'trail';
+      trail.style.left = missile.offsetLeft + 'px';
+      trail.style.top = missile.offsetTop + 'px';
+      document.body.appendChild(trail);
 
-      // 移除飛出畫面的導彈
-      setTimeout(() => {
-        missile.remove();
-        flame.remove();
-      }, 3000);
-    }, 4000);
-
+      setTimeout(() => trail.remove(), 1000);
+    }, 100);
     createMaze();
   
   </script>
