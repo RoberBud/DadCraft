@@ -110,36 +110,32 @@
       -webkit-text-stroke: 2px #001f4d; 
       text-shadow: 2px 2px 6px #001f4d; 
       } 
-   .missile {
+    .missile {
         position: absolute;
-        width: 40px;
-        height: 10px;
-        background: linear-gradient(to right, #f00, #fff);
+        bottom: 0;
+        left: 50%;
+        width: 20px;
+        height: 60px;
+        background: linear-gradient(to top, #ccc, #f00);
         border-radius: 5px;
-        top: 50%;
-        left: -50px;
-        transform: rotate(10deg);
-        animation: fly 3s linear forwards;
-        }
+        transform: translateX(-50%);
+        animation: flyUp 2s linear forwards;
+    }
 
-    @keyframes fly {
-        0% { left: -50px; top: 50%; }
-        100% { left: 100vw; top: 30%; }
+    @keyframes flyUp {
+        0% {
+        bottom: 0;
+        opacity: 1;
         }
+        80% {
+        opacity: 1;
+        }
+        100% {
+        bottom: 100%;
+        opacity: 0;
+        }
+    }
 
-    .trail {
-        position: absolute;
-        width: 5px;
-        height: 5px;
-        background: orange;
-        border-radius: 50%;
-        animation: fade 1s linear forwards;
-        }
-
-    @keyframes fade {
-        0% { opacity: 1; transform: scale(1); }
-        100% { opacity: 0; transform: scale(2); }
-        }
   </style>
 </head>
 <body background="https://i.postimg.cc/44YqXXBQ/2025-08-15-110625.jpg">
@@ -310,18 +306,21 @@
         }
       });
     }
-    const missile = document.getElementById('maze');
+     function launchMissile() {
+        const zone = document.getElementById('missile-zone');
+        const missile = document.createElement('div');
+        missile.className = 'missile';
+        zone.appendChild(missile);
 
-    // 模擬尾焰
-    setInterval(() => {
-      const trail = document.createElement('div');
-      trail.className = 'trail';
-      trail.style.left = missile.offsetLeft + 'px';
-      trail.style.top = missile.offsetTop + 'px';
-      document.body.appendChild(trail);
+        // 移除動畫結束後的導彈元素
+        missile.addEventListener('animationend', () => {
+        missile.remove();
+        });
+    }
 
-      setTimeout(() => trail.remove(), 1000);
-    }, 100);
+    // 每隔 3 秒發射一枚導彈
+    setInterval(launchMissile, 3000);
+
     createMaze();
   
   </script>
