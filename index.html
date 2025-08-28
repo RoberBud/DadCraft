@@ -309,20 +309,34 @@
       });
     }
    
-    function launchMissile() {
-      const zone = document.getElementById('maze');
-      const missile = document.createElement('div');
-      missile.className = 'missile';
-      zone.appendChild(missile);
+    function launchRandomMissile() {
+        const zone = document.getElementById('missile-zone');
+        const missile = document.createElement('div');
+        missile.className = 'missile';
 
-      // 移除動畫結束後的導彈元素
-      missile.addEventListener('animationend', () => {
-      missile.remove();
-      });
+        // 隨機水平位置（0% 到 100%）
+        const leftPercent = Math.random() * 100;
+        missile.style.left = `${leftPercent}%`;
+
+        // 隨機旋轉角度（-45 到 45 度）
+        const angle = (Math.random() * 90) - 45;
+        missile.style.transform = `rotate(${angle}deg)`;
+
+        // 隨機動畫時間（1.5 到 3 秒）
+        const duration = 1.5 + Math.random() * 1.5;
+        missile.style.animationDuration = `${duration}s`;
+
+        zone.appendChild(missile);
+
+        missile.addEventListener('animationend', () => {
+        missile.remove();
+        });
     }
 
-    // 每隔 3 秒發射一枚導彈
-    setInterval(launchMissile, 3000);
+    // 每 1 秒發射一枚導彈
+    setInterval(launchRandomMissile, 1000);
+
+
 
 
     createMaze();
