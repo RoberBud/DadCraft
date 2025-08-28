@@ -309,32 +309,45 @@
       });
     }
    
-    function launchRandomMissile() {
-        const zone = document.getElementById('maze');
+     function launchMissile() {
+        const zone = document.getElementById('missile-zone');
         const missile = document.createElement('div');
         missile.className = 'missile';
 
-        // 隨機水平位置（0% 到 100%）
-        const leftPercent = Math.random() * 100;
-        missile.style.left = `${leftPercent}%`;
+        // 隨機起始位置與角度（0～360度）
+        const startX = Math.random() * 480;
+        const startY = 0;
+        const angleDeg = Math.random() * 360;
+        const angleRad = angleDeg * Math.PI / 180;
 
-        // 隨機旋轉角度（-45 到 45 度）
-        const angle = (Math.random() * 90) - 45;
-        missile.style.transform = `rotate(${angle}deg)`;
-
-        // 隨機動畫時間（1.5 到 3 秒）
-        const duration = 1.5 + Math.random() * 1.5;
-        missile.style.animationDuration = `${duration}s`;
+        missile.style.left = `${startX}px`;
+        missile.style.bottom = `${startY}px`;
+        missile.style.transform = `rotate(${angleDeg}deg)`;
 
         zone.appendChild(missile);
 
-        missile.addEventListener('animationend', () => {
-        missile.remove();
-        });
-    }
+        // 根據角度計算移動方向
+        const speed = 4;
+        const dx = Math.cos(angleRad) * speed;
+        const dy = Math.sin(angleRad) * speed;
 
-    // 每 1 秒發射一枚導彈
-    setInterval(launchRandomMissile, 1000);
+        let x = startX;
+        let y = startY;
+
+        const interval = setInterval(() => {
+            x += dx;
+            y += dy;
+            missile.style.left = `${x}px`;
+            missile.style.bottom = `${y}px`;
+
+            
+            // 超出範圍就移除
+            if (x < 0 || x > 500 || y < 0 || y > 500) {
+            missile.remove();
+            clearInterval(interval);
+            }
+        }, 30);
+        }
 
 
 
