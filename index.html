@@ -147,6 +147,8 @@
         maze[i][0].el.className = 'cell wall';
         maze[i][size-1].type = 'wall';
         maze[i][size-1].el.className = 'cell wall';
+        maze[size-1][i].type = 'wall';
+        maze[size-1][i].el.className = 'cell wall';
       }
 
       // Add center
