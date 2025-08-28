@@ -110,46 +110,37 @@
       -webkit-text-stroke: 2px #001f4d; 
       text-shadow: 2px 2px 6px #001f4d; 
       } 
-   .missile {
+    .missile {
         position: absolute;
-        width: 20px;
-        height: 60px;
-        background: linear-gradient(to bottom, #ccc, #f00);
-        border-radius: 10px;
-        top: 100%;
+        bottom: 0;
         left: 50%;
-        transform: translateX(-50%);
-        animation: flyUp 2s ease-in forwards;
+        width: 10px;
+        height: 30px;
+        background: red;
+        border-radius: 5px;
+        animation: flyUp 2s linear forwards;
         }
-   @keyframes flyUp {
-        0% {
-            top: 100%;
-            transform: translateX(-50%) rotate(0deg);
-        }
-        50% {
-            top: 50%;
-            transform: translateX(-50%) rotate(-10deg);
-        }
-        100% {
-            top: -100px;
-            transform: translateX(-50%) rotate(-20deg);
-        }
-        }
-        .trail {
+
+    .flame {
         position: absolute;
-        width: 4px;
-        height: 100px;
-        background: radial-gradient(circle, orange, transparent);
-        top: calc(100% + 60px);
+        bottom: -10px;
         left: 50%;
-        transform: translateX(-50%);
-        animation: fadeTrail 2s ease-in forwards;
+        width: 6px;
+        height: 10px;
+        background: orange;
+        border-radius: 50%;
+        animation: flicker 0.2s infinite alternate;
         }
-        @keyframes fadeTrail {
-        0% { opacity: 1; }
-        100% { opacity: 0; }
+
+    @keyframes flyUp {
+        0% { transform: translateX(-50%) translateY(0); }
+        100% { transform: translateX(-50%) translateY(-100vh); }
         }
-      
+
+    @keyframes flicker {
+        from { opacity: 1; transform: scale(1); }
+        to { opacity: 0.5; transform: scale(1.5); }
+        }
   </style>
 </head>
 <body background="https://i.postimg.cc/44YqXXBQ/2025-08-15-110625.jpg">
